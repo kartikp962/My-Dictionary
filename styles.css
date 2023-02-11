@@ -1,1 +1,73 @@
-
+body {
+    font-family: Arial, sans-serif;
+  }
+  
+  header {
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    height: 100px;
+    background-color: #333;
+    color: #fff;
+  }
+  
+  .search-section {
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    margin-top: 50px;
+  }
+  
+  #search-input {
+    padding: 10px 20px;
+    font-size: 16px;
+  }
+  
+  #search-btn {
+    padding: 10px 20px;
+    font-size: 16px;
+    background-color: #333;
+    color: #fff;
+    border: none;
+    cursor: pointer;
+  }
+  
+  .result-section {
+    display: flex;
+    flex-direction: column;
+    justify-content: center;
+    align-items: center;
+    margin-top: 50px;
+  }
+  
+  #word-header {
+    font-size: 36px;
+    margin-bottom: 20px;
+  }
+  
+  #word-definition {
+    font-size: 16px;
+    text-align: center;
+  }
+  
+  .history-section {
+    margin-top: 50px;
+  }
+  
+  #history-list {
+    list-style: none;
+    padding: 0;
+    margin: 0;
+  }
+  
+  #history-list li {
+    margin-bottom: 10px;
+  }
+  
+  #clear-history-btn {
+    margin-top: 20px;
+    padding: 10px 20px;
+    font-size: 16px;
+    background-color: #333;
+    color: #fff;
+  }
