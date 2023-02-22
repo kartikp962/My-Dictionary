@@ -8,25 +8,29 @@
     <link rel="stylesheet" href="styles.css" />
   </head>
   <body>
-    <header>
-      <h1>My Dictionary App</h1>
-    </header>
-    <main>
-      <section class="search-section">
-        <input type="text" id="search-input" placeholder="Search word" />
-        <button id="search-btn">Search</button>
-      </section>
-      <section class="result-section">
-        <h2 id="word-header"></h2>
-        <p id="word-definition"></p>
-      </section>
-      <section class="history-section">
-        <h2>Search History</h2>
-        <ul id="history-list">
-        </ul>
-        <button id="clear-history-btn">Clear History</button>
-      </section>
-    </main>
+    <div class="body">
+        <div class="header">
+            <img src="book_logo.png" alt="logo">
+            <span class="heading">My DICTIONARY App</span>
+            <button type="button" id="history">HISTORY</button>
+        </div>
+       <!-- SEARCH PART -->
+        <div class="searchpage">
+            <span class="search-text">Search for new word</span>
+            <div class="searchbar">
+                <input type="text" id="input">
+                <img src="https://cdn-icons-png.flaticon.com/512/6338/6338475.png" alt="search-button" id="searchbtn">
+            </div>
+            <span class="searching"></span>
+        </div>
+        <!-- HISTORY PART -->
+        <div class="history"></div>
+        <!-- RESULT PART -->
+        <div id="result">
+            <div class="inpword"></div>
+            <span class="result"></span>
+        </div>
+    </div>
     <script src="App.js"></script>
   </body>
 </html>
