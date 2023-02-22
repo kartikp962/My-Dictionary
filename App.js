@@ -1,51 +1,105 @@
-const API_URL = "https://api.dictionaryapi.dev/api/v2/entries/en/";
+const inp = document.getElementById("input");
+const search = document.getElementById("searchbtn");
+const hist = document.getElementById("history");
+const main = document.querySelector(".body");
 
-const searchBtn = document.querySelector("#search-btn");
-const searchInput = document.querySelector("#search-input");
-const wordHeader = document.querySelector("#word-header");
-const wordDefinition = document.querySelector("#word-definition");
-const historyList = document.querySelector("#history-list");
-const clearHistoryBtn = document.querySelector("#clear-history-btn");
 
-let searchHistory = [];
+hist.addEventListener("click", () => {
+  if (hist.innerText == "HISTORY") {
+    document.querySelector(".heading").innerText = "My DICTIONARY App History";
+    document.querySelector(".result").innerHTML = "";
+    document.querySelector(".inpword").innerText = "";
+    document.querySelector(".searchpage").style.display = "none";
+    document.getElementById("result").style.display = "none";
+    document.querySelector(".history").style.display = "flex";
+    
+    main.style.backgroundColor = "#ffff";
+    hist.innerText = "SEARCH";
+    
 
-searchBtn.addEventListener("click", async () => {
-  const searchTerm = searchInput.value;
+    if (localStorage.length === 0) {
+      let history = document.querySelector(".history");
+      history.innerHTML = `<div id="length"><h2>No History Found..</h2></div>`;
+    }
 
-  if (!searchTerm) {
-    return;
+    for (let i = 0; i < localStorage.length; i++) {
+      if (localStorage.key(i) === "count") {
+        continue;
+      }
+      let div = document.createElement("div");
+      div.setAttribute("class", "newdiv");
+      div.style.borderRadius = "15px";
+      div.innerHTML = `<span>Word: <span class="getdata">${localStorage.key(
+        i
+      )}</span></span>
+            <br>
+            <p>${localStorage.getItem(localStorage.key(i))}</p>
+            <img onclick="deletediv(this)" id="dlt" src="https://cdn-icons-png.flaticon.com/512/1214/1214428.png">`;
+      let histdiv = document.querySelector(".history");
+      histdiv.appendChild(div);
+    }
+  } else if (hist.innerText == "SEARCH") {
+    document.querySelector(".heading").innerText = "My DICTIONARY App";
+    document.querySelector(".history").innerHTML = "";
+    document.querySelector(".history").style.display = "none";
+    document.querySelector(".searchpage").style.display = "flex";
+    document.getElementById("result").style.display = "block";
+    hist.innerText = "HISTORY";
+    
+    main.style.backgroundColor = "#fff";
   }
-
-  const response = await fetch(API_URL + searchTerm);
-  const data = await response.json();
-
-  if (data.length === 0) {
-    wordHeader.textContent = "Word not found";
-    wordDefinition.textContent = "";
-    return;
-  }
-
-  const definition = data[0].meanings[0].definitions[0].definition;
-  wordHeader.textContent = searchTerm;
-  wordDefinition.textContent = definition;
-
-  searchHistory.push(searchTerm);
-  renderSearchHistory();
 });
 
-const renderSearchHistory = () => {
-  historyList.innerHTML = "";
+function deletediv(currentElement) {
+  let key = currentElement.parentElement.querySelector(".getdata").innerText;
+  currentElement.parentElement.remove();
+//   console.log(key);
+  localStorage.removeItem(key);
 
-  searchHistory.forEach((item) => {
-    const listItem = document.createElement("li");
-    listItem.textContent = item;
-    historyList.appendChild(listItem);
-  });
-};
+  if (localStorage.length === 0) {
+    let history = document.querySelector(".history");
+    history.innerHTML = `<div id="length"><h2>No History Found..</h2></div>`;
+  }
+  // console.log(currentElement.parentElement.firstChild.innerText);
+}
 
-clearHistoryBtn.addEventListener("click", () => {
-  searchHistory = [];
-  renderSearchHistory();
+// FETCH the API
+
+search.addEventListener("click", () => {
+
+    let inVal = inp.value;
+ 
+    if(inVal === ""){
+      return;
+    }
+
+  // document.querySelector(".searching").innerText =" ";
+    // "Searching for the meaning....";
+
+  fetch(`https://api.dictionaryapi.dev/api/v2/entries/en/${inVal}`)
+    .then((response) => response.json())
+    .then((data) => {
+
+     
+             
+          if(data[0] === undefined){
+            document.querySelector(".inpword").innerText = "";
+            document.querySelector(".searching").innerText = "";
+            document.querySelector(".result").innerHTML = `<div id="length"><h3>Result Not Found</h3></div>`;
+            inp.value = "";
+            return;
+          }
+// storing data to local storage
+
+      localStorage.setItem(
+        `${inVal}`,
+        data[0].meanings[0].definitions[0].definition
+
+      );
+      document.querySelector(".result").innerHTML =
+        data[0].meanings[0].definitions[0].definition;
+      document.querySelector(".searching").innerText = "";
+      document.querySelector(".inpword").innerText = inVal;
+      inp.value = "";
+    });
 });
-
-
